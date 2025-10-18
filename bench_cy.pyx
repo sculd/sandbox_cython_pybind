@@ -14,3 +14,9 @@ def sum_array(cnp.ndarray[cnp.float64_t, ndim=1] arr):
         s += arr[i]
 
     return s
+
+def sum_array_python_ver(arr):
+    s = 0.0
+    for x in arr:
+        s += x
+    return s
