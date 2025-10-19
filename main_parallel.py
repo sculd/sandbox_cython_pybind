@@ -1,4 +1,3 @@
-import time
 import parallel_py
 import parallel_cy
 
