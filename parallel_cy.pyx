@@ -1,6 +1,5 @@
 from cython.parallel cimport prange, parallel, threadid
 from libc.math cimport sin
-from libc.stdlib cimport malloc, free
 cimport cython
 import time
 
@@ -19,10 +18,47 @@ def run_prange(int n=50000000):
     return s
 
 # Alternative implementation using parallel block with manual thread management
+from libc.stdlib cimport malloc, free
+
 @cython.boundscheck(False)
 @cython.wraparound(False)
 @cython.cdivision(True)
-def run_parallel(int n=50_000_000, int num_threads=4):
+def run_parallel_np_zeroes(int n=50_000_000, int num_threads=4):
+    import numpy as np
+    cdef double[:] thread_sums = np.zeros(num_threads, dtype=np.float64)
+
+    t_start = time.time()
+    cdef int j, tid, i
+    cdef double total_sum = 0.0
+    cdef double local_sum
+
+    # Each thread computes its portion independently
+    with nogil, parallel(num_threads=num_threads):
+        tid = threadid()
+        local_sum = 0.0  # Thread-private accumulator
+        i = tid
+
+        # Accumulate into local variable - self-contained per thread
+        while i < n:
+            local_sum = local_sum + sin(i * 0.0001)
+            i = i + num_threads
+
+        # Write result once at the end
+        thread_sums[tid] = local_sum
+
+    # Sum up all thread results
+    total_sum = 0.0
+    for j in range(num_threads):
+        total_sum = total_sum + thread_sums[j]
+
+    print(f"Cython (nogil, parallel) Computation complete! Result: {total_sum:.2f}")
+    print(f"Cython (nogil, parallel): {time.time() - t_start:.3f} sec")
+    return total_sum
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+@cython.cdivision(True)
+def run_parallel_malloc(int n=50_000_000, int num_threads=4):
     t_start = time.time()
     cdef int j, tid, i
     cdef double total_sum = 0.0
@@ -59,6 +95,6 @@ def run_parallel(int n=50_000_000, int num_threads=4):
 
     free(thread_sums)
 
-    print(f"Cython (nogil, parallel) Computation complete! Result: {total_sum:.2f}")
-    print(f"Cython (nogil, parallel): {time.time() - t_start:.3f} sec")
+    print(f"Cython (nogil, parallel malloc) Computation complete! Result: {total_sum:.2f}")
+    print(f"Cython (nogil, parallel malloc): {time.time() - t_start:.3f} sec")
     return total_sum
