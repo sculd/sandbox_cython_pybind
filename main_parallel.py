@@ -4,6 +4,7 @@ from pstats import SortKey
 
 import parallel_py
 import parallel_cy
+import parallel_nb
 
 
 def main():
@@ -11,6 +12,8 @@ def main():
     parallel_cy.run_prange()
     parallel_cy.run_parallel_np_zeroes()
     parallel_cy.run_parallel_malloc()
+    parallel_nb.run_prange()
+    parallel_nb.run_prange_private()
 
 
 if __name__ == "__main__":
@@ -34,4 +37,3 @@ if __name__ == "__main__":
     stats = pstats.Stats(profiler)
     stats.strip_dirs()
     stats.sort_stats(SortKey.CUMULATIVE)
-    stats.print_stats(20)  # Show top 20 functions by cumulative time
