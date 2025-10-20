@@ -53,4 +53,3 @@ if __name__ == "__main__":
     stats = pstats.Stats(profiler)
     stats.strip_dirs()
     stats.sort_stats(SortKey.CUMULATIVE)
-    stats.print_stats(20)  # Show top 20 functions by cumulative time
