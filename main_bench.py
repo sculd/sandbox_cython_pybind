@@ -31,6 +31,7 @@ def main():
     benchmark("PyBind11", bench_cpp.sum_array, arr)
     # numba is delayed by ~0.15 sec due to the initial compilation.
     benchmark("Numba", bench_nb.sum_array, arr)
+    benchmark("Numba compiled", bench_nb.sum_array, arr)
     benchmark("NumPy", np.sum, arr)
 
 

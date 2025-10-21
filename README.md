@@ -9,12 +9,14 @@ $ python main_bench.py
 ```
 result:
 ```
-Python          :  2.393 sec
+Python          :  2.415 sec
 Cython          :  0.022 sec
-Cython (Python) :  1.883 sec
-PyBind11        :  0.023 sec
-Numba           :  0.239 sec
-NumPy           :  0.012 sec
+Cython (Python) :  1.914 sec
+Cython Pure-Py  :  0.022 sec
+PyBind11        :  0.022 sec
+Numba           :  0.247 sec
+Numba compiled  :  0.022 sec
+NumPy           :  0.013 sec
 ```
 
 ## for parallel benchmark
