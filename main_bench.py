@@ -7,6 +7,7 @@ from pstats import SortKey
 
 import bench_py
 import bench_cy
+import bench_pure_cy
 import bench_cpp
 import bench_nb
 
@@ -26,6 +27,7 @@ def main():
     benchmark("Python", bench_py.sum_array, arr)
     benchmark("Cython", bench_cy.sum_array, arr)
     benchmark("Cython (Python)", bench_cy.sum_array_python_ver, arr)
+    benchmark("Cython Pure-Py", bench_pure_cy.sum_array, arr)
     benchmark("PyBind11", bench_cpp.sum_array, arr)
     # numba is delayed by ~0.15 sec due to the initial compilation.
     benchmark("Numba", bench_nb.sum_array, arr)

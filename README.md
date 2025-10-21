@@ -2,7 +2,8 @@
 
 ## for benchmark
 ```
-$ python setup_bench.py build_ext --inplace
+$ python setup_bench_cy.py build_ext --inplace
+$ python setup_bench_pure_cy.py build_ext --inplace
 $ c++ -O3 -Wall -shared -std=c++17 -fPIC $(python3 -m pybind11 --includes)     bench_cpp.cpp -o bench_cpp$(python3.10-config --extension-suffix)
 $ python main_bench.py
 ```
