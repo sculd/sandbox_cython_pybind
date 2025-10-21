@@ -46,3 +46,34 @@ NumPy (ThreadPoolExecutor): 0.130 sec
 Python loop (threading, GIL-bound) Computation complete! Result: 8453.81
 Python loop (threading, GIL-bound): 2.252 sec
 ```
+
+## Verdict
+
+### NumPy
+> “If it can be vectorized, use NumPy.”
+
+### Numba
+
+> “When you want C-like performance with minimal code change.”
+
+### Cython
+
+> “When you need integration with C/C++ libraries.”
+
+### PyBind11
+
+> “When you already have (or prefer) C++.”
+
+## Summary Table
+
+| Scenario | Recommended Tool |
+|-----------|------------------|
+| Vector or matrix computation (simple math) | 🟩 **NumPy** |
+| Pure mathematical broadcasting / linear algebra | 🟩 **NumPy** |
+| Numeric loops with simple logic | 🟨 **Numba** |
+| Quick prototyping and fast iteration | 🟨 **Numba** |
+| Performance-critical loops or GIL-free parallelization | 🟦 **Cython** |
+| Data-science / ML code mixing NumPy arrays and loops | 🟦 **Cython + NumPy** |
+| Need for fine control over memory layout and thread behavior | 🟦 **Cython** |
+| Wrapping existing C++ code or libraries | 🟥 **PyBind11** |
+| Existing native engine written in C++ | 🟥 **PyBind11** |
