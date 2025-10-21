@@ -23,7 +23,7 @@ def worker_python_loop(start, end, results, index):
     results[index] = s
 
 
-def run_numpy_threading(n=N, num_threads=4):
+def run_numpy_threading(n=N, num_threads=4, show_result=False):
     """Run NumPy with threading - GIL released during np.sin"""
     t_start = time.time()
 
@@ -44,12 +44,13 @@ def run_numpy_threading(n=N, num_threads=4):
     total_sum = sum(results)
     elapsed = time.time() - t_start
 
-    print(f"NumPy (threading) Computation complete! Result: {total_sum:.2f}")
+    if show_result:
+        print(f"NumPy (threading) Computation complete! Result: {total_sum:.2f}")
     print(f"NumPy (threading): {elapsed:.3f} sec")
     return total_sum
 
 
-def run_numpy_threadpool(n=N, num_threads=4):
+def run_numpy_threadpool(n=N, num_threads=4, show_result=False):
     """Run NumPy with ThreadPoolExecutor"""
     chunk = n // num_threads
 
@@ -72,12 +73,13 @@ def run_numpy_threadpool(n=N, num_threads=4):
     total_sum = sum(results)
     elapsed = time.time() - t_start
 
-    print(f"NumPy (ThreadPoolExecutor) Computation complete! Result: {total_sum:.2f}")
+    if show_result:
+        print(f"NumPy (ThreadPoolExecutor) Computation complete! Result: {total_sum:.2f}")
     print(f"NumPy (ThreadPoolExecutor): {elapsed:.3f} sec")
     return total_sum
 
 
-def run_python_loop_threading(n=N, num_threads=4):
+def run_python_loop_threading(n=N, num_threads=4, show_result=False):
     """Run pure Python loop with threading (GIL-bound - for comparison)"""
     t_start = time.time()
 
@@ -98,6 +100,7 @@ def run_python_loop_threading(n=N, num_threads=4):
     total_sum = sum(results)
     elapsed = time.time() - t_start
 
-    print(f"Python loop (threading, GIL-bound) Computation complete! Result: {total_sum:.2f}")
+    if show_result:
+        print(f"Python loop (threading, GIL-bound) Computation complete! Result: {total_sum:.2f}")
     print(f"Python loop (threading, GIL-bound): {elapsed:.3f} sec")
     return total_sum

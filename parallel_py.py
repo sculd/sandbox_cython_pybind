@@ -10,7 +10,7 @@ def worker(start, end, results, index):
         s += math.sin(i * 0.0001)
     results[index] = s
 
-def run_python(n=N):
+def run_python(n=N, show_result=False):
     t_start = time.time()
     threads = []
     results = [0.0] * 4  # List to store results from each thread
@@ -26,6 +26,7 @@ def run_python(n=N):
     
     # Sum all results from threads
     total_sum = sum(results)
-    print(f"(Python) Computation complete! Result: {total_sum:.2f}")
+    if show_result:
+        print(f"(Python) Computation complete! Result: {total_sum:.2f}")
     print(f"Python (GIL): {time.time() - t_start:.3f} sec")
     return total_sum

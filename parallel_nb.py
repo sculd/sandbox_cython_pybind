@@ -39,7 +39,7 @@ def compute_prange_private(n, num_threads=4):
     return np.sum(thread_sums)
 
 
-def run_prange(n=N):
+def run_prange(n=N, show_result=False):
     """Run Numba parallel computation with prange"""
     # Warm-up JIT compilation
     _ = compute_prange(100)
@@ -48,12 +48,13 @@ def run_prange(n=N):
     result = compute_prange(n)
     elapsed = time.time() - t_start
 
-    print(f"Numba (parallel prange) Computation complete! Result: {result:.2f}")
+    if show_result:
+        print(f"Numba (parallel prange) Computation complete! Result: {result:.2f}")
     print(f"Numba (parallel prange): {elapsed:.3f} sec")
     return result
 
 
-def run_prange_private(n=N, num_threads=4):
+def run_prange_private(n=N, num_threads=4, show_result=False):
     """Run Numba parallel computation with private accumulators"""
     # Warm-up JIT compilation
     _ = compute_prange_private(100, num_threads)
@@ -62,7 +63,8 @@ def run_prange_private(n=N, num_threads=4):
     result = compute_prange_private(n, num_threads)
     elapsed = time.time() - t_start
 
-    print(f"Numba (parallel private) Computation complete! Result: {result:.2f}")
+    if show_result:
+        print(f"Numba (parallel private) Computation complete! Result: {result:.2f}")
     print(f"Numba (parallel private): {elapsed:.3f} sec")
     return result
 
@@ -74,7 +76,7 @@ def compute_sin_element(i):
     return math.sin(i * 0.0001)
 
 
-def run_vectorize(n=N):
+def run_vectorize(n=N, show_result=False):
     """Run Numba parallel computation using @vectorize"""
     # Warm-up JIT compilation
     _ = compute_sin_element(np.arange(100, dtype=np.int64)).sum()
@@ -84,7 +86,8 @@ def run_vectorize(n=N):
     result = compute_sin_element(indices).sum()
     elapsed = time.time() - t_start
 
-    print(f"Numba (@vectorize parallel) Computation complete! Result: {result:.2f}")
+    if show_result:
+        print(f"Numba (@vectorize parallel) Computation complete! Result: {result:.2f}")
     print(f"Numba (@vectorize parallel): {elapsed:.3f} sec")
     return result
 
@@ -99,7 +102,7 @@ def compute_gufunc(indices, result):
     result[0] = s
 
 
-def run_guvectorize(n=N, chunk_size=1_000_000):
+def run_guvectorize(n=N, chunk_size=1_000_000, show_result=False):
     """Run Numba parallel computation using @guvectorize"""
     # Warm-up JIT compilation
     test_arr = np.arange(100, dtype=np.int64).reshape(1, -1)
@@ -124,7 +127,8 @@ def run_guvectorize(n=N, chunk_size=1_000_000):
 
     elapsed = time.time() - t_start
 
-    print(f"Numba (@guvectorize parallel) Computation complete! Result: {result:.2f}")
+    if show_result:
+        print(f"Numba (@guvectorize parallel) Computation complete! Result: {result:.2f}")
     print(f"Numba (@guvectorize parallel): {elapsed:.3f} sec")
     return result
 
@@ -139,7 +143,7 @@ def compute_chunk(start, end):
     return s
 
 
-def run_manual_threading(n=N, num_threads=4):
+def run_manual_threading(n=N, num_threads=4, show_result=False):
     """Run Numba parallel computation with manual threading"""
     # Warm-up JIT compilation
     _ = compute_chunk(0, 100)
@@ -159,6 +163,7 @@ def run_manual_threading(n=N, num_threads=4):
     result = sum(results)
     elapsed = time.time() - t_start
 
-    print(f"Numba (manual threading nogil) Computation complete! Result: {result:.2f}")
+    if show_result:
+        print(f"Numba (manual threading nogil) Computation complete! Result: {result:.2f}")
     print(f"Numba (manual threading nogil): {elapsed:.3f} sec")
     return result
